@@ -1,0 +1,201 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @font-face {
+    font-family: "ClashDisplay-Variable";
+    src: url("./font/clash/ClashDisplay-Variable.woff2") format("woff2"),
+      url("./font/clash/ClashDisplay-Variable.woff") format("woff"),
+      url("./font/clash/ClashDisplay-Variable.ttf") format("truetype");
+    font-weight: 200 700;
+    font-display: swap;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "CabinetGrotesk-Variable";
+    src: url("./font/cabinet/CabinetGrotesk-Variable.woff2") format("woff2"),
+      url("./font/cabinet/CabinetGrotesk-Variable.woff") format("woff"),
+      url("./font/cabinet/CabinetGrotesk-Variable.ttf") format("truetype");
+    font-weight: 100 900;
+    font-display: swap;
+    font-style: normal;
+  }
+
+  body {
+    font-family: "Space Grotesk", sans-serif;
+    user-select: unset;
+  }
+
+  .navbar-menu {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 4px 4px 25px -12px rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 120px;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    top: 1.5rem;
+    left: 0;
+    position: relative;
+  }
+
+  .option-one {
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 4px 4px 25px -12px rgba(31, 38, 135, 0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 2px solid rgba(252, 252, 252, 0.486);
+    border-radius: 50px;
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+
+  .image {
+    box-shadow: inset 0 0 12px -7px #03334e;
+    padding: 5px;
+  }
+
+  .form-container {
+    box-shadow: 4px 4px 25px -12px rgb(5, 12, 27);
+  }
+
+  @media screen and (max-width: 1024px) {
+    .form-container {
+      box-shadow: none;
+    }
+  }
+
+  .main-body {
+    position: relative;
+    isolation: isolate;
+    background-color: #e5e5f7;
+    opacity: 1;
+    background-image: linear-gradient(#caccfc 0.8px, transparent 0.8px),
+      linear-gradient(90deg, #caccfc 0.8px, transparent 0.8px),
+      linear-gradient(#caccfc 0.4px, transparent 0.4px),
+      linear-gradient(90deg, #caccfc 0.4px, #e5e5f7 0.4px);
+    background-size: 20px 20px, 20px 20px, 4px 4px, 4px 4px;
+    background-position: -0.8px -0.8px, -0.8px -0.8px, -0.4px -0.4px,
+      -0.4px -0.4px;
+    background-blend-mode: multiply;
+  }
+
+  .main-body::after {
+    content: "";
+    position: absolute;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: url(/src/assets/white-reduced.webp);
+    transform: rotate(180deg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    inset: 0;
+    z-index: -1;
+    inset: 0;
+  }
+
+  .main-body::before {
+    content: "";
+    position: absolute;
+    opacity: 0.75;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #fce4d1;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .holder {
+    box-shadow: inset 0 0 12px -7px #444d52;
+  }
+
+  .form-part {
+    background: linear-gradient(
+      176deg,
+      rgb(21, 30, 32) 50%,
+      rgb(31, 38, 53) 100%
+    );
+    background-attachment: fixed;
+  }
+
+  .right-part {
+    background-image: url(/src/assets/timemachine-effect.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 0px 10px 10px 0px;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .right-part::after {
+    content: "";
+    position: absolute;
+    opacity: 0.4;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #65397e;
+    border-radius: 0px 10px 10px 0px;
+    z-index: -1;
+    inset: 0;
+  }
+
+  .Toastify__toast-icon {
+    font-family: "Space Grotesk", sans-serif;
+  }
+
+  .dashboard {
+    position: relative;
+    isolation: isolate;
+    background-color: #e5e5f7;
+    opacity: 1;
+    background-image: linear-gradient(#abaeeb 1.3px, transparent 1.3px),
+      linear-gradient(to right, #abaeeb 1.3px, #e5e5f7 1.3px);
+    background-size: 23px 23px;
+
+    background-blend-mode: multiply;
+  }
+
+  .dashboard::after {
+    content: "";
+    position: absolute;
+    opacity: 0.4;
+    width: 100%;
+    height: 100%;
+    background-image: url(/src/assets/differ.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    inset: 0;
+    z-index: -1;
+    inset: 0;
+  }
+
+  .dashboard::before {
+    content: "";
+    position: absolute;
+    opacity: 0.81;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .error-message {
+    color: rgb(255, 81, 0);
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 0.1rem;
+    margin-left: 0.1rem;
+  }
+}
