@@ -12,6 +12,42 @@ function LoginForm() {
 
   const [loading, setLoading] = useState(false);
 
+  // function to show toast message on success
+  async function showSuccessMessage(message) {
+    await toast.promise(
+      () => new Promise((resolve) => setTimeout(resolve, 2000)),
+      {
+        pending: "Submitting...",
+        success: message,
+      }
+    );
+  }
+
+  // function to show toast message on error
+  async function showErrorMessage(message) {
+    await toast
+      .promise(
+        () =>
+          new Promise((_, reject) =>
+            setTimeout(
+              () =>
+                reject(
+                  new Error("Login failed for promise rejection, try again!")
+                ),
+              2000
+            )
+          ),
+        {
+          pending: "Submitting...",
+          error: message,
+        }
+      )
+      .catch((error) => {
+        console.log("Error during login:", error.message);
+      });
+  }
+
+  // function to submit login form
   const submitLogin = async (data) => {
     setLoading(true);
     try {
@@ -23,27 +59,19 @@ function LoginForm() {
         body: JSON.stringify({ email: data.email, password: data.password }),
       });
       const resData = await response.json();
+      console.log(resData);
 
+      // if user is logged in successfully
       if (resData.user) {
-        await toast.promise(
-          () => new Promise((resolve) => setTimeout(resolve, 2000)),
-          {
-            pending: "Submitting...",
-            success: "Login Successful.",
-          }
-        );
+        await showSuccessMessage("Login Successful.");
         localStorage.setItem("token", resData.user);
         setTimeout(() => {
           window.location.href = "/dashboard";
         }, 2000);
-      } else {
-        await toast.promise(
-          () => new Promise((_, reject) => setTimeout(reject, 2000)),
-          {
-            pending: "Submitting...",
-            error: "Check your email and password.",
-          }
-        );
+      }
+      // if user is not logged in
+      else {
+        await showErrorMessage("Check your email and password.");
       }
     } catch (error) {
       console.log("Error during login:", error);
@@ -89,12 +117,12 @@ function LoginForm() {
                         }`}
                         {...register("email", {
                           required: true,
-                          pattern: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
+                          pattern: /\S+@gmail\.com/,
                         })}
                       />
                       {errors.email && (
                         <span className="error-message">
-                          Please enter a valid email address.
+                          Please enter a valid @gmail address.
                         </span>
                       )}
                     </div>

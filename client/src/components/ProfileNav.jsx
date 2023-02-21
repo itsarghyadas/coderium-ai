@@ -11,14 +11,14 @@ function ProfileNav() {
     }, 2000); // delay for one second
   }
   return (
-    <div className="navbar-menu">
+    <div className="navbar-menu ">
       <nav className=" flex items-center justify-between py-4 px-6">
         <div className="menu-item">
           <ul>
             <li className="flex items-center justify-center space-x-1">
-              <FaRobot size={24} className="mb-1 text-slate-400/30" />
+              <FaRobot size={24} className="text-slate-900/20" />
               <a
-                className="font-clash text-xl font-semibold text-slate-400/30"
+                className="font-phudu text-2xl font-semibold text-slate-900/20"
                 href="/"
               >
                 CODEPIX

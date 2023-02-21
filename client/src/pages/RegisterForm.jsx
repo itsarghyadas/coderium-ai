@@ -13,6 +13,44 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // function to show toast message on success
+  async function showSuccessMessage(message) {
+    await toast.promise(
+      () => new Promise((resolve) => setTimeout(resolve, 2000)),
+      {
+        pending: "Submitting...",
+        success: message,
+      }
+    );
+  }
+
+  // function to show toast message on error
+  async function showErrorMessage(message) {
+    await toast
+      .promise(
+        () =>
+          new Promise((_, reject) =>
+            setTimeout(
+              () =>
+                reject(
+                  new Error(
+                    "Registration failed for promise rejection, try again!"
+                  )
+                ),
+              2000
+            )
+          ),
+        {
+          pending: "Submitting...",
+          error: message,
+        }
+      )
+      .catch((error) => {
+        console.log("Error during register:", error.message);
+      });
+  }
+
+  // function to register user
   async function registerUser(resData) {
     setLoading(true);
 
@@ -30,8 +68,22 @@ const Register = () => {
         }),
       });
 
+      // it will throw error if response is not ok based on status code
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        switch (response.status) {
+          case 400:
+            throw new Error("Invalid email or password!");
+          case 401:
+            throw new Error("Email address already exists!");
+          case 403:
+            throw new Error("Username already exists!");
+          case 404:
+            throw new Error("Invalid email or password!");
+          case 500:
+            throw new Error("Server error, please try again later!");
+          default:
+            throw new Error("Something went wrong, please try again later!");
+        }
       }
 
       const contentType = response.headers.get("content-type");
@@ -43,21 +95,11 @@ const Register = () => {
       console.log(data);
 
       if (data.emailExists) {
-        await toast.promise(
-          () => new Promise((resolve, reject) => setTimeout(reject, 2000)),
-          {
-            pending: "Submitting...",
-            error: "Email already exists.",
-          }
-        );
+        await showErrorMessage("Email already exists!");
+      } else if (data.usernameExists) {
+        await showErrorMessage("Username already exists!");
       } else if (data.user) {
-        await toast.promise(
-          () => new Promise((resolve, reject) => setTimeout(resolve, 2000)),
-          {
-            pending: "Submitting...",
-            success: "Registration Successful.",
-          }
-        );
+        await showSuccessMessage("Registration successful!");
         localStorage.setItem("token", data.user);
         setTimeout(() => {
           window.location.href = "/dashboard";
@@ -66,15 +108,8 @@ const Register = () => {
         throw new Error("Registration failed!");
       }
     } catch (error) {
-      console.error(error);
-      setError(error?.message || "Some Error Occured, Try Again!");
-      await toast.promise(
-        () => new Promise((resolve, reject) => setTimeout(reject, 2000)),
-        {
-          pending: "Submitting...",
-          error: error.message || "Registration failed!",
-        }
-      );
+      await showErrorMessage(error.message);
+      console.log("Error during registration:", error);
     } finally {
       setLoading(false);
     }
@@ -155,7 +190,7 @@ const Register = () => {
                       }`}
                       {...register("email", {
                         required: true,
-                        pattern: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
+                        pattern: /^[a-z0-9._%+-]+@gmail.com$/,
                       })}
                       type="email"
                       name="email"
@@ -163,13 +198,17 @@ const Register = () => {
                       spellCheck="false"
                       placeholder="Enter your email address"
                     />
-                    {errors.email && (
+                    {errors.email && errors.email.type === "required" && (
                       <span className="error-message">
-                        Please enter a valid email address.
+                        Please enter your email address.
+                      </span>
+                    )}
+                    {errors.email && errors.email.type === "pattern" && (
+                      <span className="error-message">
+                        Enter a valid @gmail address.
                       </span>
                     )}
                   </div>
-                  {/* //? Password */}
                   <div className="user-password flex flex-col gap-1">
                     <label
                       className="text-[12px] text-white/60"
@@ -183,18 +222,27 @@ const Register = () => {
                           ? "border-red-500"
                           : "border-slate-100/40 "
                       }`}
-                      {...register("password", { required: true })}
+                      {...register("password", {
+                        required: true,
+                        minLength: 8,
+                      })}
                       type="password"
                       name="password"
                       id="registerPassword"
                       spellCheck="false"
                       placeholder="Enter your password"
                     />
-                    {errors.password && (
+                    {errors.password && errors.password.type === "required" && (
                       <span className="error-message">
                         Please enter your password.
                       </span>
                     )}
+                    {errors.password &&
+                      errors.password.type === "minLength" && (
+                        <span className="error-message">
+                          Password must be at least 8 characters.
+                        </span>
+                      )}
                   </div>
                   <div className="tack-box mt-1 flex items-center justify-start space-x-2">
                     <input
@@ -211,7 +259,6 @@ const Register = () => {
                       I agree the Terms & Conditions.
                     </label>
                   </div>
-                  {/* //? btn */}
                   <div className="btn flex flex-col gap-2">
                     <button
                       className="mt-2 rounded bg-amber-400 p-2 font-bold text-black"

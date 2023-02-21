@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "watch": "nodemon index.js"
+    "watch": "nodemon server.js"
   },
   "keywords": [],
   "author": "",

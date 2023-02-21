@@ -44,14 +44,16 @@
   }
 
   .option-one {
-    background: rgba(255, 255, 255, 0.4);
-    box-shadow: 4px 4px 25px -12px rgba(31, 38, 135, 0.5);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 4px 4px 25px -12px rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
     border: 2px solid rgba(252, 252, 252, 0.486);
     border-radius: 50px;
     display: grid;
     grid-template-rows: 1fr auto;
+    cursor: pointer;
+    position: relative;
   }
 
   .image {
@@ -192,10 +194,20 @@
   }
 
   .error-message {
-    color: rgb(255, 81, 0);
+    color: rgb(255, 51, 0);
     font-size: 0.85rem;
     font-weight: 600;
     margin-top: 0.1rem;
     margin-left: 0.1rem;
+  }
+
+  .homepage {
+    background: linear-gradient(
+      176deg,
+      rgb(18, 24, 27) 50%,
+      rgb(32, 39, 55) 100%
+    );
+    min-height: 100vh;
+    background-attachment: fixed;
   }
 }

@@ -12,12 +12,11 @@ function App() {
   return (
     <div className="App">
       <ToastContainer
-        position="bottom-center"
+        position="bottom-right"
         autoClose={1000}
-        theme="colored"
+        theme="dark"
         transition={Slide}
         closeOnClick
-        draggable
         pauseOnHover
         limit={1}
       />

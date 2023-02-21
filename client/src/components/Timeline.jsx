@@ -21,7 +21,7 @@ function Timeline() {
             {test.map((box, firstDimIndex) => (
               <div key={firstDimIndex}>
                 {box.map((item, secondDimIndex) => (
-                  <div className="flex" key={item.description}>
+                  <div className="flex" key={secondDimIndex}>
                     <TimelineItem
                       key={item.step}
                       step={item.step}

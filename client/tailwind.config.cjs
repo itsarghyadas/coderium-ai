@@ -5,6 +5,7 @@ module.exports = {
     fontFamily: {
       clash: ["ClashDisplay-Variable", "sans-serif"],
       cabinet: ["CabinetGrotesk-Variable", "sans-serif"],
+      phudu: ["Phudu", "cursive", "sans-serif"],
     },
     extend: {},
   },
