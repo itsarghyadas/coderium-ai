@@ -1,23 +1,32 @@
 import express from "express";
 const app = express();
 import cors from "cors";
-import mongoose from "mongoose";
-import User from "./models/user.model.js";
-mongoose.set("strictQuery", false);
+import User from "./mongodb/models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import connectDB from "./mongodb/connect.js";
 dotenv.config();
 
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-});
+// This is the route to listen to the server
+const { MONGODB_URL, PORT } = process.env;
 
-const db = mongoose.connection;
-db.on("error", (error) => console.error(error));
+const startServer = async () => {
+  try {
+    await connectDB(MONGODB_URL);
+    app.listen(PORT, () => {
+      console.log(`🚀 Listening on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+
+startServer();
 
 // This is the route that will be used to register the user
 app.post("/api/register", async (req, res) => {
@@ -60,7 +69,7 @@ app.post("/api/register", async (req, res) => {
       process.env.JWT_SECRET
     );
 
-    console.log("Hey! Welcome, New User created");
+    console.log("Hey! Welcome, New User Created.");
     return res.json({
       success: true,
       emailExists: false,
@@ -117,9 +126,4 @@ app.post("/api/login", async (req, res) => {
 // This is the route to check if the server is working
 app.get("/", (req, res) => {
   res.send("<h1>Hello, The server is Working.</h1>");
-});
-
-// This is the route to listen to the server
-app.listen(1337, () => {
-  console.log("🚀 @ http://localhost:1337");
 });
