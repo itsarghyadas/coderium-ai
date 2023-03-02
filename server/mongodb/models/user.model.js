@@ -11,35 +11,35 @@ const emailValidation = {
   },
   reason: "Email address is not valid",
 };
-// user schema
-const User = new mongoose.Schema(
-  {
-    username: {
-      type: String,
-      required: [true, "Username is required"],
-    },
-    name: {
-      type: String,
-      required: [true, "Name is required"],
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      validate: emailValidation,
-    },
-    password: {
-      type: String,
-      required: [true, "Password is required"],
-      minlength: 8,
-    },
-    resetPasswordToken: String,
-    resetPasswordExpire: Date,
+
+// user schema and model definition
+const UserSchema = new mongoose.Schema({
+  username: {
+    type: String,
+    required: true,
   },
-  { collection: "user-data" }
-);
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    validate: emailValidation,
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 8,
+  },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-const model = mongoose.model("UserData", User);
+const UserModel = mongoose.model("User", UserSchema, "user-data");
 
-export default model;
+export default UserModel;

@@ -64,7 +64,7 @@ function LoginForm() {
       // if user is logged in successfully
       if (resData.user) {
         await showSuccessMessage("Login Successful.");
-        localStorage.setItem("token", resData.user);
+        localStorage.setItem("token", resData.token);
         setTimeout(() => {
           window.location.href = "/dashboard";
         }, 2000);

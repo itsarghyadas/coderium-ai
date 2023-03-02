@@ -55,7 +55,6 @@ export default test;
 // console.log(test[0][3].step);
 // console.log(test[0][3].description);
 
-
 //! Second component is test[1][index]
 // console.log(test[1][0].step);
 // console.log(test[1][0].description);

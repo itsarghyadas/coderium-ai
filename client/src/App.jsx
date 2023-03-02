@@ -8,6 +8,9 @@ import LoginForm from "./pages/LoginForm";
 import Register from "./pages/RegisterForm";
 import Dashboard from "./pages/Dashboard";
 
+// auth middleware
+import { AuthorizeUser } from "./middleware/auth";
+
 function App() {
   return (
     <div className="App">
@@ -25,7 +28,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              <AuthorizeUser>
+                <Dashboard />
+              </AuthorizeUser>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

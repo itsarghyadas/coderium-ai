@@ -68,44 +68,65 @@ const Register = () => {
         }),
       });
 
-      // it will throw error if response is not ok based on status code
+      // if response is not ok, throw error
       if (!response.ok) {
+        let errorMessage = "Something went wrong, please try again later!";
         switch (response.status) {
           case 400:
-            throw new Error("Invalid email or password!");
-          case 401:
-            throw new Error("Email address already exists!");
-          case 403:
-            throw new Error("Username already exists!");
-          case 404:
-            throw new Error("Invalid email or password!");
+            errorMessage = "Invalid input, please try again!";
+            break;
+          case 409:
+            errorMessage = "The username or email is already taken!";
+            break;
           case 500:
-            throw new Error("Server error, please try again later!");
+            errorMessage = "Internal server error, please try again later!";
+            break;
           default:
-            throw new Error("Something went wrong, please try again later!");
+            throw new Error(errorMessage);
+        }
+
+        // it will throw error if response is not json
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new TypeError("Oops, we haven't got JSON!");
+        }
+
+        // get the error message from the response
+        const data = await response.json();
+        console.log(data);
+
+        // handle the error based on the errorCode
+        switch (data.errorCode) {
+          case "INPUT_VALIDATION_ERROR":
+            console.error("Input validation error:", data.error);
+            throw new Error("Input validation error!");
+          case "USERNAME_ALREADY_EXISTS":
+            console.error("Username already exists:", data.error);
+            throw new Error("Username already exists!");
+          case "EMAIL_ALREADY_EXISTS":
+            console.error("Email already exists:", data.error);
+            throw new Error("Email already exists!");
+          case "INVALID_GMAIL_ADDRESS":
+            console.error("Invalid Gmail address:", data.error);
+            throw new Error("Email address is not a valid Gmail address!");
+          case "UNKNOWN_ERROR":
+          default:
+            console.error("Unknown error:", data.error);
+            throw new Error("Unknown error!");
         }
       }
 
-      const contentType = response.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        throw new TypeError("Oops, we haven't got JSON!");
-      }
-
+      // get the data from the response
       const data = await response.json();
       console.log(data);
 
-      if (data.emailExists) {
-        await showErrorMessage("Email already exists!");
-      } else if (data.usernameExists) {
-        await showErrorMessage("Username already exists!");
-      } else if (data.user) {
+      // if user is registered, show success message and redirect to dashboard
+      if (data.user) {
         await showSuccessMessage("Registration successful!");
-        localStorage.setItem("token", data.user);
+        localStorage.setItem("token", data.token);
         setTimeout(() => {
           window.location.href = "/dashboard";
         }, 2000);
-      } else {
-        throw new Error("Registration failed!");
       }
     } catch (error) {
       await showErrorMessage(error.message);
