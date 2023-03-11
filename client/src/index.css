@@ -16,12 +16,26 @@
     font-display: swap;
     font-style: normal;
   }
+
   @font-face {
     font-family: "CabinetGrotesk-Variable";
     src: url("./font/cabinet/CabinetGrotesk-Variable.woff2") format("woff2"),
       url("./font/cabinet/CabinetGrotesk-Variable.woff") format("woff"),
       url("./font/cabinet/CabinetGrotesk-Variable.ttf") format("truetype");
     font-weight: 100 900;
+    font-display: swap;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Satoshi-Variable";
+    src: url("./font/satoshi/Satoshi-Variable.woff2") format("woff2"),
+      url("./font/satoshi/Satoshi-Variable.woff") format("woff"),
+      url("./font/satoshi/Satoshi-Variable.ttf") format("truetype"),
+      url("./font/satoshi/Satoshi-VariableItalic.woff2") format("woff2"),
+      url("./font/satoshi/Satoshi-VariableItalic.woff") format("woff"),
+      url("./font/satoshi/Satoshi-VariableItalic.ttf") format("truetype");
+    font-weight: 300 900;
     font-display: swap;
     font-style: normal;
   }
@@ -53,7 +67,8 @@
     border: 2px solid rgba(252, 252, 252, 0.486);
     border-radius: 50px;
     display: grid;
-    grid-template-rows: 1fr auto;
+    /* grid-template-rows: 1fr auto; */
+    grid-template-rows: auto 1fr auto;
     cursor: pointer;
     position: relative;
   }

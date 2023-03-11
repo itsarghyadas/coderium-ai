@@ -14,6 +14,10 @@ const emailValidation = {
 
 // user schema and model definition
 const UserSchema = new mongoose.Schema({
+  /*   _id: {
+    type: mongoose.Types.ObjectId,
+    default: mongoose.Types.ObjectId,
+  }, */
   username: {
     type: String,
     required: true,
@@ -37,6 +41,11 @@ const UserSchema = new mongoose.Schema({
   verified: {
     type: Boolean,
     default: false,
+  },
+  credits: {
+    type: Number,
+    default: 10000,
+    min: 0,
   },
 });
 

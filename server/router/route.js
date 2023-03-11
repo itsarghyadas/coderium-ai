@@ -16,9 +16,12 @@ router.route("/user/:username").get(userController.getUser);
 router.route("/generateOTP").get(userController.generateOTP);
 router.route("/verifyOTP").get(userController.verifyOTP);
 router.route("/resetSession").get(userController.resetSession);
+router.route("/totalTokens").get(userController.totalTokens);
+router.route("/loggeduser").get(userController.loggedUser);
 
 //!PUT Methods
 router.route("/updateuser").put(Auth, userController.updateUser);
 router.route("/resetpassword").put(userController.resetPassword);
+router.route("/totalTokens").put(userController.totalTokens);
 
 export default router;

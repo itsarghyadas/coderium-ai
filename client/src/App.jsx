@@ -7,6 +7,9 @@ import Home from "./pages/Homepage";
 import LoginForm from "./pages/LoginForm";
 import Register from "./pages/RegisterForm";
 import Dashboard from "./pages/Dashboard";
+import ChatApp from "./chatgpt-v2/ChatApp";
+import Pricing from "./pages/Pricing";
+import Completion from "./pages/Completion";
 
 // auth middleware
 import { AuthorizeUser } from "./middleware/auth";
@@ -36,6 +39,16 @@ function App() {
               </AuthorizeUser>
             }
           />
+          <Route
+            path="/chat"
+            element={
+              <AuthorizeUser>
+                <ChatApp />
+              </AuthorizeUser>
+            }
+          />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/completion" element={<Completion />} />
         </Routes>
       </BrowserRouter>
     </div>

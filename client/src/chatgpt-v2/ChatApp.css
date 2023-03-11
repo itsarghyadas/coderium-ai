@@ -1,0 +1,247 @@
+.ChatApp {
+  text-align: center;
+  display: flex;
+  background-color: #282c34;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 0.98rem;
+  font-weight: 450;
+  color: #dddddd;
+  line-height: 1.65;
+  letter-spacing: 0.01rem;
+  overflow: hidden;
+  word-spacing: 0.01rem;
+  font-family: "karla", sans-serif;
+  /* font-family: "EB Garamond", serif; */
+  /* font-family: "Inter var", sans-serif; */
+  /* font-family: "Satoshi-Variable", sans-serif;*/
+}
+
+.project-prose :where(pre):not(:where([class~="not-prose"] *)) {
+  background-color: transparent;
+  border-radius: 0.375rem;
+  color: currentColor;
+  font-size: 0.95em;
+  font-weight: 400;
+  line-height: 1.7142857;
+  margin: 0;
+  overflow-x: auto;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.message__table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.message__table td,
+.message__table th {
+  border: 1px solid #9b9b9b;
+  padding: 8px;
+}
+
+.message__table th {
+  /* background-color: #1326424b; */
+  text-align: left;
+}
+
+h1.message__heading {
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.8;
+  margin-bottom: 1.2rem;
+  margin-top: 1rem;
+  color: #c0c0bf;
+}
+
+h2.message__heading {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.8;
+  margin-top: 0.8rem;
+  margin-bottom: 0.5rem;
+  color: wheat;
+}
+
+::-webkit-scrollbar {
+  width: 0.4rem;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #868686be;
+  border-radius: 50px;
+}
+
+.chat-input-textarea {
+  overflow-y: hidden;
+}
+
+.sidemenu {
+  width: 260px;
+  padding: 10px;
+  background-color: #1e1f22;
+  /* background-color: #111827; */
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.chatbox {
+  flex: 1;
+  background-color: #343541;
+  position: relative;
+  /* overflow-y: scroll; */
+}
+
+.side-menu-button {
+  padding: 12px;
+  border-radius: 5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.side-menu-button span {
+  padding-left: 6px !important;
+  padding-right: 12px;
+}
+
+.chat-input-holder {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+}
+
+.chat-input-textarea {
+  min-height: 40px;
+  max-height: 240px;
+  border: none;
+  width: 60%;
+  border-radius: 5px;
+  /* background-color: #2e333b; */
+  background-color: #40414f;
+  color: white;
+  padding: 12px 0 12px 12px;
+  outline: none;
+  box-shadow: 0 0 20px -12px rgb(0 0 0 / 50%);
+  border: 1px solid #dfdfdf;
+}
+
+.chatgpt {
+  background-color: #444654;
+  /* background-color: #e5e7eb; */
+  /* background-color: #383c44; */
+}
+
+.chatgpt .avatar,
+.avatar {
+  position: relative;
+}
+
+/* .chatgpt .avatar::before {
+  content: "GPT";
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: greenyellow;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.avatar::before {
+  content: "ME";
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: orange;
+  position: absolute;
+  top: 0;
+  left: 0;
+} */
+
+.chat-log {
+  scroll-behavior: smooth;
+}
+
+/* .message__markdown > p {
+  margin-bottom: 1.25rem;
+} */
+
+.message__markdown > p:last-child {
+  margin-bottom: 0;
+}
+
+/* .message__paragraph code {
+  color: #9fda15;
+  font-weight: 600;
+} */
+
+code.message__code.language-js {
+  color: #9fda15;
+  font-weight: 600;
+}
+
+.message__code {
+  border-radius: 7px;
+}
+
+.message__paragraph code::before {
+  content: "`";
+}
+
+.message__paragraph code::after {
+  content: "`";
+}
+
+.project-prose :where(ul):not(:where([class~="not-prose"] *)) {
+  list-style-type: disc;
+  margin-bottom: 1.25em;
+  margin-top: 1.25em;
+  padding-left: 1.625em;
+}
+
+.project-prose :where(ol):not(:where([class~="not-prose"] *)) {
+  list-style-type: disc;
+  margin-bottom: 1.25em;
+  margin-top: 1.25em;
+  padding-left: 1.625em;
+}
+
+.suggestion-prompt {
+  flex-shrink: 0;
+  outline: none;
+}
+
+.suggestion-prompt-container::-webkit-scrollbar {
+  display: none;
+}
+
+.suggestion-nav-button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.suggestion-nav-button--left {
+  position: absolute;
+  left: 0;
+}
+
+.suggestion-nav-button--right {
+  position: absolute;
+  right: 0;
+}
+
+.suggestion-prompt-container button:last-child {
+  margin-right: 0;
+}

@@ -85,7 +85,7 @@ export async function register(req, res) {
     // sign the token
     const token = jwt.sign(
       {
-        id: savedUser._id,
+        userId: savedUser._id,
         username: savedUser.username,
       },
       process.env.JWT_SECRET,
@@ -200,6 +200,7 @@ export async function authenticate(req, res) {
 export async function getUser(req, res) {
   try {
     const { username } = req.params;
+    console.log("username:", username);
     if (!username) {
       return res.status(401).json({
         success: false,
@@ -278,4 +279,47 @@ export async function updateUser(req, res) {
 // PUT @ http://localhost:1337/api/resetPassword
 export async function resetPassword(req, res) {
   res.json({ message: "This is the resetPassword route" });
+}
+
+// PUT @ http://localhost:1337/api/totalTokens
+export async function totalTokens(req, res) {
+  try {
+    const { userId } = req.query;
+    console.log("userIdForTotalToken", userId);
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    let totalToken = user.credits || 0;
+
+    if (req.method === "PUT") {
+      const { totalToken: newTotalToken } = req.body;
+      user.credits = newTotalToken;
+      await user.save();
+      totalToken = user.credits;
+    }
+
+    res.json({ totalToken });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+// GET @ http://localhost:1337/api/loggedUser
+export async function loggedUser(req, res) {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("decoded", decoded);
+    const userId = decoded.userId;
+    console.log("userId", userId);
+    const userName = decoded.username;
+    console.log("userName", userName);
+    res.status(200).json({ success: true, userId, userName });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 }
