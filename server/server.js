@@ -69,7 +69,7 @@ let context = [];
 app.post("/api/chat", validateRequest, async (req, res) => {
   try {
     const { messages } = req.body;
-    console.log("message input for api:", messages);
+    /* console.log("message input for api:", messages); */
     const inputPrompt = `${context.slice(-2).join(" ")} ${messages}`;
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
@@ -77,22 +77,22 @@ app.post("/api/chat", validateRequest, async (req, res) => {
         {
           role: "system",
           content:
-            "You are an helpful assistant. Try to be concise and informative. ",
+            "You are an helpful assistant. Try to be concise and informative. Don't be too chatty and always be turthful. If you don't know the answer, say so.",
         },
         {
           role: "user",
-          content: ` Try to be concise and informative. Don't talk too much.${inputPrompt}`,
+          content: ` Try to be concise and informative. Always talk to the point, and I want to know about ${inputPrompt}`,
         },
       ],
       max_tokens: 380,
       temperature: 0.9,
     });
     let generatedText = response.data.choices[0].message;
-    console.log(generatedText);
+    /* console.log(generatedText); */
     let tokenUsage = response.data.usage.total_tokens;
-    console.log(tokenUsage);
-    context.push(generatedText.content); // add generated text to the context array
-    console.log("Giving context:", context.slice(-2)); // print the last item in the context array
+    /* console.log(tokenUsage); */
+    context.push(generatedText.content.slice(0, 200));
+    /* console.log(context.slice(-2).join(" ")); */
 
     res.json({ message: generatedText, tokenUsage: tokenUsage });
   } catch (error) {
@@ -116,7 +116,7 @@ const storeItems = new Map([
 app.post("/api/checkout", async (req, res) => {
   try {
     const { userEmail } = req.body;
-    console.log(userEmail);
+    /*  console.log(userEmail); */
     const loggedInUserEmail = userEmail;
     const session = await stripe.checkout.sessions.create({
       invoice_creation: { enabled: true },
@@ -146,7 +146,7 @@ app.post("/api/checkout", async (req, res) => {
       };
     });
     res.json({ url: session.url, id: session.id, lineItems });
-    console.log(lineItems);
+    /* console.log(lineItems); */
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -182,22 +182,22 @@ app.post(
       const session = event.data.object;
 
       const totalAmountMoney = session.amount_total;
-      console.log(totalAmountMoney);
+      /* console.log(totalAmountMoney); */
 
       let newToken = 10000;
       let upgradeToken;
 
       if (totalAmountMoney === 8000) {
-        console.log("Starter Package");
+        /* console.log("Starter Package"); */
         upgradeToken = newToken;
       } else if (totalAmountMoney === 16000) {
-        console.log("Starter Package * 2");
+        /* console.log("Starter Package * 2"); */
         upgradeToken = newToken * 2;
       } else if (totalAmountMoney === 24000) {
-        console.log("Starter Package * 3");
+        /*  console.log("Starter Package * 3"); */
         upgradeToken = newToken * 3;
       } else if (totalAmountMoney === 80000) {
-        console.log("Pro Package");
+        /* console.log("Pro Package"); */
         upgradeToken = newToken * 10;
       }
 
@@ -210,11 +210,9 @@ app.post(
         totalToken += upgradeToken;
         user.credits = totalToken;
         await user.save();
-        console.log("User updated" + user.credits);
+        console.log("User updated with credits Amount: " + user.credits);
       }
     }
-
-    // Return a 200 response to acknowledge receipt of the event
     response.sendStatus(200);
   }
 );

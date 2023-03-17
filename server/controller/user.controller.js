@@ -40,7 +40,7 @@ export async function register(req, res) {
 
     // check if the username already exists
     if (existUsername) {
-      console.log("Username already exists");
+      /* console.log("Username already exists"); */
       return res.status(409).json({
         success: false,
         error: "Username already in use.",
@@ -50,7 +50,7 @@ export async function register(req, res) {
 
     // check if the email already exists
     if (existEmail) {
-      console.log("Email already exists");
+      /* console.log("Email already exists"); */
       return res.status(409).json({
         success: false,
         error: "Email address already in use.",
@@ -200,7 +200,7 @@ export async function authenticate(req, res) {
 export async function getUser(req, res) {
   try {
     const { username } = req.params;
-    console.log("username:", username);
+    /* console.log("username:", username); */
     if (!username) {
       return res.status(401).json({
         success: false,
@@ -285,7 +285,7 @@ export async function resetPassword(req, res) {
 export async function totalTokens(req, res) {
   try {
     const { userId } = req.query;
-    console.log("userIdForTotalToken", userId);
+    /* console.log("userIdForTotalToken", userId); */
     const user = await UserModel.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -312,75 +312,14 @@ export async function loggedUser(req, res) {
   try {
     const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("decoded", decoded);
+    /* console.log("decoded", decoded); */
     const userId = decoded.userId;
-    console.log("userId", userId);
+    /* console.log("userId", userId); */
     const userName = decoded.username;
-    console.log("userName", userName);
+    /* console.log("userName", userName); */
     res.status(200).json({ success: true, userId, userName });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 }
-/* 
-import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-// Webhook secret from CLI
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-// GET @ http://localhost:1337/api/webhook
-export async function webhook(request, response) {
-  let event = request.body;
-  const signature = request.headers["stripe-signature"];
-  try {
-    event = stripe.webhooks.constructEvent(
-      request.body,
-      signature,
-      endpointSecret
-    );
-  } catch (err) {
-    console.log(`⚠️  Webhook signature verification failed.`, err.message);
-    return response.sendStatus(400);
-  }
-
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-
-    const totalAmountMoney = session.amount_total;
-    console.log(totalAmountMoney);
-
-    let newToken = 10000;
-    let upgradeToken;
-
-    if (totalAmountMoney === 8000) {
-      console.log("Starter Package");
-      upgradeToken = newToken;
-    } else if (totalAmountMoney === 16000) {
-      console.log("Starter Package * 2");
-      upgradeToken = newToken * 2;
-    } else if (totalAmountMoney === 24000) {
-      console.log("Starter Package * 3");
-      upgradeToken = newToken * 3;
-    } else if (totalAmountMoney === 80000) {
-      console.log("Pro Package");
-      upgradeToken = newToken * 10;
-    }
-
-    const customerEmail = session.customer_email;
-    const user = await UserModel.findOne({ email: customerEmail });
-    if (!user) {
-      console.log("User not found");
-    } else {
-      let totalToken = user.credits || 0;
-      totalToken += upgradeToken;
-      user.credits = totalToken;
-      await user.save();
-      console.log("User updated" + user.credits);
-    }
-  }
-
-  // Return a 200 response to acknowledge receipt of the event
-  response.sendStatus(200);
-}
- */
