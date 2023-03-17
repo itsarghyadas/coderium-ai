@@ -37,7 +37,7 @@ function ChatInput({ chatInputRef, handleSubmit }) {
             onKeyDown={handleKeyDown}
             onInput={handleInput}
             spellCheck="false"
-            className="h-full w-full resize-none bg-transparent p-1 pr-12 pl-8 text-sm outline-none md:text-base"
+            className="h-full w-full resize-none bg-transparent p-1 pr-12 pl-8 text-sm font-[400] outline-none md:text-base"
           ></textarea>
           <button className="absolute bottom-2.5 left-2 rounded-md p-1 text-gray-500">
             <FiSettings />
@@ -49,10 +49,10 @@ function ChatInput({ chatInputRef, handleSubmit }) {
         <div className="py-2">
           <SuggestionPrompt onSuggestionClick={handleSuggestionClick} />
         </div>
-        <p className="text-xs text-gray-300/50">
+        {/*         <p className="text-xs text-gray-300/50">
           Version 1.0.0. Our goal is to make AI systems more natural and safe to
           interact with. Your feedback will help us improve.
-        </p>
+        </p> */}
       </form>
     </div>
   );

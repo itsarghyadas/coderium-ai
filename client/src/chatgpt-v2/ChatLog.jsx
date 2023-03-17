@@ -1,6 +1,7 @@
 import React from "react";
 import { useRef, useEffect } from "react";
 import ChatMessage from "./ChatMessage";
+import ChatLogNavbar from "./ChatLogNav";
 
 function ChatLog({ chatLog }) {
   const chatLogRef = useRef(null);
@@ -11,10 +12,10 @@ function ChatLog({ chatLog }) {
 
   return (
     <div
-      className="chat-log relative max-h-[72%] overflow-y-auto"
+      className="chat-log relative max-h-[83%] overflow-y-auto"
       ref={chatLogRef}
     >
-     {/*  <ChatLogNavbar /> */}
+      <ChatLogNavbar />
       {chatLog.map((message, index) => (
         <ChatMessage key={index} message={message} />
       ))}

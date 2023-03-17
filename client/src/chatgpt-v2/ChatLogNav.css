@@ -1,13 +1,29 @@
-.navbar-parent {
+/* .navbar-parent {
   position: relative;
   width: 100%;
   height: 60px;
-  /* background-color: transparent; */
   background-color: #515363;
+   background-color: transparent;
+} */
+.navbar-parent {
+  /*  position: absolute; */
+  /*   width: 100%;
+  height: 100%; */
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: background-color 0.3s ease-out;
+  z-index: 1000;
+  background: rgba(45, 45, 46, 0.25);
+  box-shadow: 0 8px 20px -12px rgba(31, 38, 135, 0.2);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-bottom: 1px solid rgba(163, 163, 163, 0.18);
 }
 
-.navbar {
-  position: absolute;
+/* .navbar {
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
@@ -16,7 +32,7 @@
   transition: background-color 0.3s ease-out;
   z-index: 1000;
   box-shadow: 0 0 20px -15px rgb(21, 22, 24);
-}
+} */
 
 /* .navbar--visible {
   background-color: rgba(255, 255, 255, 0.9);

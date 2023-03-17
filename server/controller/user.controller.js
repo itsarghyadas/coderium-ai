@@ -323,3 +323,64 @@ export async function loggedUser(req, res) {
     res.status(500).json({ error: "Internal server error" });
   }
 }
+/* 
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// Webhook secret from CLI
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+// GET @ http://localhost:1337/api/webhook
+export async function webhook(request, response) {
+  let event = request.body;
+  const signature = request.headers["stripe-signature"];
+  try {
+    event = stripe.webhooks.constructEvent(
+      request.body,
+      signature,
+      endpointSecret
+    );
+  } catch (err) {
+    console.log(`⚠️  Webhook signature verification failed.`, err.message);
+    return response.sendStatus(400);
+  }
+
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+
+    const totalAmountMoney = session.amount_total;
+    console.log(totalAmountMoney);
+
+    let newToken = 10000;
+    let upgradeToken;
+
+    if (totalAmountMoney === 8000) {
+      console.log("Starter Package");
+      upgradeToken = newToken;
+    } else if (totalAmountMoney === 16000) {
+      console.log("Starter Package * 2");
+      upgradeToken = newToken * 2;
+    } else if (totalAmountMoney === 24000) {
+      console.log("Starter Package * 3");
+      upgradeToken = newToken * 3;
+    } else if (totalAmountMoney === 80000) {
+      console.log("Pro Package");
+      upgradeToken = newToken * 10;
+    }
+
+    const customerEmail = session.customer_email;
+    const user = await UserModel.findOne({ email: customerEmail });
+    if (!user) {
+      console.log("User not found");
+    } else {
+      let totalToken = user.credits || 0;
+      totalToken += upgradeToken;
+      user.credits = totalToken;
+      await user.save();
+      console.log("User updated" + user.credits);
+    }
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  response.sendStatus(200);
+}
+ */

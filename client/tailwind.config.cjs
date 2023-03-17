@@ -7,6 +7,7 @@ module.exports = {
       cabinet: ["CabinetGrotesk-Variable", "sans-serif"],
       phudu: ["Phudu", "cursive", "sans-serif"],
       satoshi: ["Satoshi-Variable", "sans-serif"],
+      space: ["Space Grotesk", "sans-serif"],
     },
     extend: {},
   },

@@ -55,45 +55,54 @@ app.get("/", (req, res) => {
 // api routes
 app.use("/api", router); // This is the route to use the router
 
-// This is the route to handle the chatbot
 const configuration = new Configuration({ apiKey: process.env.OPENAI_API_KEY });
-let context = "";
+const openai = new OpenAIApi(configuration);
 
-app.post("/api/chat", async (req, res) => {
+function validateRequest(req, res, next) {
+  const { messages } = req.body;
+  if (!messages) {
+    return res.status(400).json({ error: "Message is required" });
+  }
+  next();
+}
+let context = [];
+app.post("/api/chat", validateRequest, async (req, res) => {
   try {
     const { messages } = req.body;
-    if (!messages)
-      return res.status(400).json({ error: "Message is required" });
-
-    const inputPrompt = `${context} ${messages}`; // update input prompt;
-    const openai = new OpenAIApi(configuration);
+    console.log("message input for api:", messages);
+    const inputPrompt = `${context.slice(-2).join(" ")} ${messages}`;
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
           content:
-            "You are helpful assistant and you have your own feeling, opinion and emotions",
+            "You are an helpful assistant. Try to be concise and informative. ",
         },
         {
           role: "user",
-          content: `I want you to reply to all my questions in markdown format ${inputPrompt} `,
+          content: ` Try to be concise and informative. Don't talk too much.${inputPrompt}`,
         },
       ],
-      max_tokens: 520,
-      temperature: 0.3,
+      max_tokens: 380,
+      temperature: 0.9,
     });
-
     let generatedText = response.data.choices[0].message;
     console.log(generatedText);
     let tokenUsage = response.data.usage.total_tokens;
     console.log(tokenUsage);
-    context = `${context} ${generatedText.content}`; // update context
+    context.push(generatedText.content); // add generated text to the context array
+    console.log("Giving context:", context.slice(-2)); // print the last item in the context array
 
     res.json({ message: generatedText, tokenUsage: tokenUsage });
   } catch (error) {
-    console.error(error.stack);
-    res.status(500).json({ error: "Something went wrong!" });
+    if (error.response && error.response.status === 429) {
+      console.error("Rate limit exceeded. Try again later.");
+      res.status(429).json({ error: "Rate limit exceeded. Try again later." });
+    } else {
+      console.error(error.stack);
+      res.status(500).json({ error: "Something went wrong!" });
+    }
   }
 });
 
@@ -144,10 +153,10 @@ app.post("/api/checkout", async (req, res) => {
 });
 
 // This is the route to handle the checkout session
-/* app.get("/api/checkoutSession", async (req, res) => {
+app.get("/api/checkoutSession", async (req, res) => {
   const session = await stripe.checkout.sessions.retrieve(req.query.id);
   res.json(session);
-}); */
+});
 
 // Stripe webhook secret from CLI
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;

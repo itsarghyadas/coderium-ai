@@ -26,9 +26,10 @@ function ChatApp() {
     setSelectedRole(role);
   };
 
-  const handleSubmit = async (e) => {
+  /* const handleSubmit = async (e) => {
     e.preventDefault();
     const inputValue = chatInputRef.current.value.trim();
+    console.log("inputValue", inputValue);
     if (!inputValue) return;
 
     if (totalToken < 2000) {
@@ -47,6 +48,44 @@ function ChatApp() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: newChatLog.map(({ message }) => message).join("\n"),
+        }),
+      });
+
+      const { message: { content } = {}, tokenUsage } = await response.json();
+
+      setChatLog([...newChatLog, { user: "gpt", message: content }]);
+      setTokenUsage((prevTokenUsage) => prevTokenUsage + tokenUsage);
+
+      const newTotalToken = totalToken - tokenUsage;
+      updateTokenCount(newTotalToken);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+ */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const inputValue = chatInputRef.current.value.trim();
+    console.log("inputValue", inputValue);
+    if (!inputValue) return;
+
+    if (totalToken < 2000) {
+      toast.error("Not enough tokens 😢");
+      return;
+    }
+
+    const newMessage = { user: "me", message: inputValue };
+    const newChatLog = [...chatLog, newMessage];
+    setChatLog(newChatLog);
+    chatInputRef.current.value = "";
+
+    try {
+      const response = await fetch("http://localhost:1337/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: inputValue,
+          userId: userId,
         }),
       });
 
@@ -132,7 +171,7 @@ function ChatApp() {
         handleRoleSelected={handleRoleSelected}
       />
       <section className="chatbox">
-        <ChatLogNavbar />
+        {/* <ChatLogNavbar /> */}
         <ChatLog chatLog={chatLog} />
         <ChatInput chatInputRef={chatInputRef} handleSubmit={handleSubmit} />
       </section>

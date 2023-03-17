@@ -83,11 +83,21 @@ h2.message__heading {
 }
 
 .sidemenu {
+  /*   display: flex; */
   width: 260px;
   padding: 10px;
   background-color: #1e1f22;
   /* background-color: #111827; */
   font-family: "Space Grotesk", sans-serif;
+}
+
+@media only screen and (max-width: 768px) {
+  aside.sidemenu.flex {
+    display: none;
+  }
+  form.chat-input-holder {
+    max-width: 42rem;
+  }
 }
 
 .chatbox {
@@ -114,7 +124,9 @@ h2.message__heading {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 24px;
+  padding-inline: 24px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .chat-input-textarea {
@@ -166,9 +178,9 @@ h2.message__heading {
   scroll-behavior: smooth;
 }
 
-/* .message__markdown > p {
+.message__markdown > p {
   margin-bottom: 1.25rem;
-} */
+}
 
 .message__markdown > p:last-child {
   margin-bottom: 0;
@@ -186,6 +198,7 @@ code.message__code.language-js {
 
 .message__code {
   border-radius: 7px;
+  /* padding-top: 10px; */
 }
 
 .message__paragraph code::before {
@@ -198,15 +211,15 @@ code.message__code.language-js {
 
 .project-prose :where(ul):not(:where([class~="not-prose"] *)) {
   list-style-type: disc;
-  margin-bottom: 1.25em;
-  margin-top: 1.25em;
+  /*   margin-bottom: 1.25em;
+  margin-top: 1.25em; */
   padding-left: 1.625em;
 }
 
 .project-prose :where(ol):not(:where([class~="not-prose"] *)) {
   list-style-type: disc;
-  margin-bottom: 1.25em;
-  margin-top: 1.25em;
+  /*   margin-bottom: 1.25em;
+  margin-top: 1.25em; */
   padding-left: 1.625em;
 }
 
@@ -244,4 +257,35 @@ code.message__code.language-js {
 
 .suggestion-prompt-container button:last-child {
   margin-right: 0;
+}
+
+.chat-message-center {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: inset 0 0 7px rgba(41, 41, 41, 0.5);
+  background-color: #383a3d41;
+}
+
+.chat-message-center::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: rotate(1deg) perspective(1px);
+  transform-origin: top center;
+  /*   border-bottom: 0.5px dashed #5e5e5eb6;
+  border-top: 0.5px dashed #5e5e5eb6; */
+  border-bottom: 0.5px dashed #555555b6;
+  border-top: 0.5px dashed #3f3f3fb6;
+  box-shadow: inset 0 6px 6px -6px rgba(27, 27, 27, 0.3);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  z-index: -1;
+}
+
+.message__markdown.project-prose.whitespace-pre-wrap.text-left {
+  padding-right: 60px;
 }

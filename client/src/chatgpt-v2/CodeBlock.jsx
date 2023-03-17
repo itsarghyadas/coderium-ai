@@ -31,7 +31,7 @@ const CodeBlock = ({ node, inline, className, children, ...props }) => {
           padding: "5px",
           border: "none",
           borderRadius: "3px",
-         /*  background: "#000", */
+          /*  background: "#000", */
           color: "#fff",
           cursor: "pointer",
         }}

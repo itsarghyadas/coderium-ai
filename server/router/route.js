@@ -10,6 +10,9 @@ router.route("/register").post(userController.register);
 router.route("/registerEmail").post(userController.registerEmail);
 router.route("/authenticate").post(userController.authenticate);
 router.route("/login").post(userController.login);
+/* router
+  .route("/webhook")
+  .post(express.raw({ type: "application/json" }), userController.webhook); */
 
 //! All the GET Methods
 router.route("/user/:username").get(userController.getUser);
