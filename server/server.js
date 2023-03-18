@@ -70,35 +70,38 @@ app.post("/api/chat", validateRequest, async (req, res) => {
   try {
     const { messages, age, region } = req.body;
     /* console.log("message input for api:", messages); */
-    console.log("age:", age);
-    console.log("region:", region);
+    /*     console.log("age:", age);
+    console.log("region:", region); */
     const inputAge = age;
     const inputRegion = region;
-    const inputPrompt = `${context.slice(-2).join(" ")} ${messages}`;
-    const totalInput = `I am ${inputAge} years old and I am from ${inputRegion} and I want to know about${inputPrompt}`;
-    console.log("Total Input: ", totalInput);
+    const inputPrompt = `${messages}`;
+    const inputContext = context.slice(-2).join(" ");
+    const totalInput = `I am ${inputAge} years old and I am from ${inputRegion} and the context of previous chat is ${inputContext} and I want to know about${inputPrompt}`;
+    console.log("Total Input:", totalInput);
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
-          content:
-            "You are an helpful assistant. You can help me with my queries.",
+          content: `You are an helpful assistant. Always answer the user's question based on their ${inputAge} and ${inputRegion} and the context of previous chat ${inputContext} and the user wants to know about ${inputPrompt}. if you don't know the answer, you can ask the user to rephrase their question. if the age is less then 10, then the user is a child so the content you will generate will be for children, simple and short like in 10-lines and if the age is from 10 to 25, then the user is a teenager so the content will be different, it will be well explained, big and informative with points and if the age is more than 25, then the user is an adult so the content will be different make it like a research paper, big and very well informed with proper links, and you can use some technical terms .`,
         },
         {
           role: "user",
-          content: ` Try to be short and informative. Always talk to the point ${totalInput}`,
+          content: `${totalInput}`,
         },
       ],
-      max_tokens: 780,
-      temperature: 0.9,
+      max_tokens: 2096,
+      temperature: 0.2,
+      top_p: 1,
+      presence_penalty: 0.3,
+      frequency_penalty: 0.2,
     });
     let generatedText = response.data.choices[0].message;
     /* console.log(generatedText); */
     let tokenUsage = response.data.usage.total_tokens;
     console.log(tokenUsage);
-    context.push(generatedText.content.slice(0, 200));
-    console.log(context.slice(-2).join(" "));
+    context.push(generatedText.content.slice(0, 150));
+    /* console.log(context.slice(-2).join(" ")); */
 
     res.json({ message: generatedText, tokenUsage: tokenUsage });
   } catch (error) {
