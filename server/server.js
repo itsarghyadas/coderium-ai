@@ -68,31 +68,37 @@ function validateRequest(req, res, next) {
 let context = [];
 app.post("/api/chat", validateRequest, async (req, res) => {
   try {
-    const { messages } = req.body;
+    const { messages, age, region } = req.body;
     /* console.log("message input for api:", messages); */
+    console.log("age:", age);
+    console.log("region:", region);
+    const inputAge = age;
+    const inputRegion = region;
     const inputPrompt = `${context.slice(-2).join(" ")} ${messages}`;
+    const totalInput = `I am ${inputAge} years old and I am from ${inputRegion} and I want to know about${inputPrompt}`;
+    console.log("Total Input: ", totalInput);
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
           content:
-            "You are an helpful assistant. Try to be concise and informative. Don't be too chatty and always be turthful. If you don't know the answer, say so.",
+            "You are an helpful assistant. You can help me with my queries.",
         },
         {
           role: "user",
-          content: ` Try to be concise and informative. Always talk to the point, and I want to know about ${inputPrompt}`,
+          content: ` Try to be short and informative. Always talk to the point ${totalInput}`,
         },
       ],
-      max_tokens: 380,
+      max_tokens: 780,
       temperature: 0.9,
     });
     let generatedText = response.data.choices[0].message;
     /* console.log(generatedText); */
     let tokenUsage = response.data.usage.total_tokens;
-    /* console.log(tokenUsage); */
+    console.log(tokenUsage);
     context.push(generatedText.content.slice(0, 200));
-    /* console.log(context.slice(-2).join(" ")); */
+    console.log(context.slice(-2).join(" "));
 
     res.json({ message: generatedText, tokenUsage: tokenUsage });
   } catch (error) {

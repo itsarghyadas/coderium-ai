@@ -38,7 +38,7 @@ const ChatMessage = ({ message }) => {
   return (
     <div className={classes}>
       <div className="chat-message-center mx-auto max-w-4xl border-l border-r border-dashed border-slate-500/20 px-8 py-10 ">
-        <div className="flex items-start space-x-5">
+        <div className="flex items-start space-x-5 pr-7">
           <div className={avatarClasses}>{avatarContent}</div>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}

@@ -79,6 +79,12 @@ function ChatApp() {
     setChatLog(newChatLog);
     chatInputRef.current.value = "";
 
+    const age = localStorage.getItem("age");
+    const region = localStorage.getItem("region");
+
+    console.log("age", age);
+    console.log("region", region);
+
     try {
       const response = await fetch("http://localhost:1337/api/chat", {
         method: "POST",
@@ -86,6 +92,8 @@ function ChatApp() {
         body: JSON.stringify({
           messages: inputValue,
           userId: userId,
+          age: age,
+          region: region,
         }),
       });
 

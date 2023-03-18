@@ -180,10 +180,15 @@ h2.message__heading {
 
 .message__markdown > p {
   margin-bottom: 1.25rem;
+  margin-top: 1.25rem;
 }
 
 .message__markdown > p:last-child {
   margin-bottom: 0;
+}
+
+.message__markdown > p:first-child {
+  margin-top: 0;
 }
 
 /* .message__paragraph code {
