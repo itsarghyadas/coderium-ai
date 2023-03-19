@@ -58,13 +58,13 @@ function SideMenu({
           <h1 className="text-slate-400">Token Usage: {tokenUsage}</h1>
         </div> */}
 
-        <div className="side-menu-button token-usage flex items-center space-x-2 font-medium ">
+        <div className="token-usage flex items-center space-x-2 p-1.5 font-medium ">
           <MdOutlineGeneratingTokens className="text-slate-300/70" size={18} />
           <h1 className="text-[14.5px] font-semibold text-slate-300/70">
             Token Available: <span className="text-lime-400">{totalToken}</span>
           </h1>
         </div>
-        {/*         <div
+{/*         <div
           className="side-menu-button token-usage flex items-center space-x-2 bg-gray-600/10 font-medium"
           onClick={logout}
         >

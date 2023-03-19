@@ -91,12 +91,9 @@ h2.message__heading {
   font-family: "Space Grotesk", sans-serif;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1024px) {
   aside.sidemenu.flex {
     display: none;
-  }
-  form.chat-input-holder {
-    max-width: 42rem;
   }
 }
 
@@ -127,6 +124,11 @@ h2.message__heading {
   padding-inline: 24px;
   padding-top: 4px;
   padding-bottom: 4px;
+  background-image: linear-gradient(
+    180deg,
+    rgba(53, 55, 64, 0),
+    #353740 58.85%
+  );
 }
 
 .chat-input-textarea {
@@ -181,6 +183,10 @@ h2.message__heading {
 .message__markdown > p {
   margin-bottom: 1.25rem;
   margin-top: 1.25rem;
+}
+
+p.message__paragraph {
+  white-space: pre-wrap;
 }
 
 .message__markdown > p:last-child {
@@ -272,7 +278,7 @@ code.message__code.language-js {
   background-color: #383a3d41;
 }
 
-.chat-message-center::before {
+/* .chat-message-center::before {
   content: "";
   position: absolute;
   top: 0;
@@ -281,15 +287,15 @@ code.message__code.language-js {
   bottom: 0;
   transform: rotate(1deg) perspective(1px);
   transform-origin: top center;
-  /*   border-bottom: 0.5px dashed #5e5e5eb6;
-  border-top: 0.5px dashed #5e5e5eb6; */
-  border-bottom: 0.5px dashed #555555b6;
+    border-bottom: 0.5px dashed #5e5e5eb6;
+  border-top: 0.5px dashed #5e5e5eb6;
+   border-bottom: 0.5px dashed #555555b6;
   border-top: 0.5px dashed #3f3f3fb6;
   box-shadow: inset 0 6px 6px -6px rgba(27, 27, 27, 0.3);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   z-index: -1;
-}
+} */
 
 .message__markdown.project-prose.whitespace-pre-wrap.text-left {
   padding-right: 60px;

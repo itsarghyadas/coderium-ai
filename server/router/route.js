@@ -1,30 +1,32 @@
 import express from "express";
-const router = express.Router();
-import Auth from "../middleware/auth.js";
-
-// Importing the controllers
 import * as userController from "../controller/user.controller.js";
+import * as chatController from "../controller/chat.controller.js";
+import Auth from "../middleware/auth.js";
+import WebhookHandler from "../middleware/expressRaw.js";
+import validateRequest from "../middleware/validateReq.js";
 
-//! All the POST Methods
-router.route("/register").post(userController.register);
-router.route("/registerEmail").post(userController.registerEmail);
-router.route("/authenticate").post(userController.authenticate);
-router.route("/login").post(userController.login);
-/* router
-  .route("/webhook")
-  .post(express.raw({ type: "application/json" }), userController.webhook); */
+const router = express.Router();
 
-//! All the GET Methods
-router.route("/user/:username").get(userController.getUser);
-router.route("/generateOTP").get(userController.generateOTP);
-router.route("/verifyOTP").get(userController.verifyOTP);
-router.route("/resetSession").get(userController.resetSession);
-router.route("/totalTokens").get(userController.totalTokens);
-router.route("/loggeduser").get(userController.loggedUser);
+//! POST routes
+router.post("/register", userController.register);
+router.post("/registerEmail", userController.registerEmail);
+router.post("/authenticate", userController.authenticate);
+router.post("/login", userController.login);
+router.post("/webhook", WebhookHandler, userController.handleWebhookEvent);
+router.post("/checkout", userController.createCheckoutSession);
+router.post("/chat", validateRequest, chatController.chat);
 
-//!PUT Methods
-router.route("/updateuser").put(Auth, userController.updateUser);
-router.route("/resetpassword").put(userController.resetPassword);
-router.route("/totalTokens").put(userController.totalTokens);
+//! GET routes
+router.get("/user/:username", userController.getUser);
+router.get("/generateOTP", userController.generateOTP);
+router.get("/verifyOTP", userController.verifyOTP);
+router.get("/resetSession", userController.resetSession);
+router.get("/totalTokens", userController.totalTokens);
+router.get("/loggeduser", userController.loggedUser);
+
+//! PUT routes
+router.put("/updateuser", Auth, userController.updateUser);
+router.put("/resetpassword", userController.resetPassword);
+router.put("/totalTokens", userController.totalTokens);
 
 export default router;

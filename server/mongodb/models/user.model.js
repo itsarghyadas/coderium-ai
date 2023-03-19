@@ -14,10 +14,6 @@ const emailValidation = {
 
 // user schema and model definition
 const UserSchema = new mongoose.Schema({
-  /*   _id: {
-    type: mongoose.Types.ObjectId,
-    default: mongoose.Types.ObjectId,
-  }, */
   username: {
     type: String,
     required: true,

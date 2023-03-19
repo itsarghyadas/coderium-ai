@@ -42,22 +42,6 @@ function Completion() {
       } catch (error) {
         console.error("Error:", error);
       }
-
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
-      console.log("id is:", id);
-
-      try {
-        const response = await fetch(
-          `http://localhost:1337/api/checkoutSession?id=${id}`
-        );
-        const session = await response.json();
-        console.log("Session:", session);
-        const { status } = session;
-        console.log("Status:", status);
-      } catch (error) {
-        console.error("Error:", error);
-      }
     }
     getData();
   }, []);

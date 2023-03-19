@@ -6,7 +6,7 @@ import DashboardItem from "../components/DashboardItem";
 function Dashboard() {
   return (
     <div className="dashboard ">
-      <div className=" m-auto max-w-screen-lg px-4">
+      <div className=" m-auto h-screen max-w-screen-lg px-4">
         <ProfileNav />
         <div className="dashboard-body m-auto px-2 py-20">
           <div className="dashboard-body-content">

@@ -1,6 +1,6 @@
 const promptData = [
   {
-    text: "Hello, How are you?",
+    text: "How are you?",
     color: "text-amber-400",
   },
   {

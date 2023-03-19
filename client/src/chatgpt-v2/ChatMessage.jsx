@@ -21,18 +21,13 @@ const ChatMessage = ({ message }) => {
     </div>
   );
   const components = {
-    /*  h1: ({ children }) => <h1 className="message__heading">{children}</h1>,
-    h2: ({ children }) => <h2 className="message__heading">{children}</h2>, */
+    /*h1: ({ children }) => <h1 className="message__heading">{children}</h1>,
+      h2: ({ children }) => <h2 className="message__heading">{children}</h2>, 
+      table: ({ children }) => (
+        <table className="message__table">{children}</table>
+    ),*/
     p: ({ children }) => <p className="message__paragraph">{children}</p>,
-    table: ({ children }) => (
-      <table className="message__table">{children}</table>
-    ),
     code: CodeBlock,
-    link: ({ children, href }) => (
-      <a className="message__link text-red-500 underline decoration-dashed underline-offset-8">
-        {children}
-      </a>
-    ),
   };
 
   return (

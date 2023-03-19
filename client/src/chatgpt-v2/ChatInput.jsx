@@ -26,7 +26,7 @@ function ChatInput({ chatInputRef, handleSubmit }) {
   return (
     <div>
       <form
-        className="chat-input-holder m-auto max-w-4xl"
+        className="chat-input-holder z-20 m-auto max-w-4xl"
         onSubmit={handleSubmit}
       >
         <div className="chat-input-textarea relative flex w-full flex-grow flex-col rounded-md border border-black/10 py-2">
