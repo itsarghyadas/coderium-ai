@@ -22,10 +22,10 @@ const ChatMessage = ({ message }) => {
   );
   const components = {
     /*h1: ({ children }) => <h1 className="message__heading">{children}</h1>,
-      h2: ({ children }) => <h2 className="message__heading">{children}</h2>, 
-      table: ({ children }) => (
-        <table className="message__table">{children}</table>
-    ),*/
+      h2: ({ children }) => <h2 className="message__heading">{children}</h2>, */
+    table: ({ children }) => (
+      <table className="message__table">{children}</table>
+    ),
     p: ({ children }) => <p className="message__paragraph">{children}</p>,
     code: CodeBlock,
   };

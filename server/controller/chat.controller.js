@@ -57,7 +57,8 @@ async function getChatResponse(
       messages: [
         {
           role: "system",
-          content: "You are an helpful Assistant.",
+          content:
+            "You are an helpful Assistant. Answer shortly when chatting normally but answer well-informed when asked a question. And if you don't know the answer, say so.",
         },
         {
           role: "user",
