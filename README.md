@@ -19,6 +19,7 @@ npm run dev
 
 ## Screenshots
 
-![coderium-homepage](https://user-images.githubusercontent.com/89768406/219871555-91507423-c473-4aea-986e-282ac4401cab.png)
+![rendered-chatgpt-v2](https://user-images.githubusercontent.com/89768406/226508359-902af9e4-420e-4572-9b36-2dd88ee962d7.png)
 
 You should get this image/homepage when you run this project and open on the browser.
+
