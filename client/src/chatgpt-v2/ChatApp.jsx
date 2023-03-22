@@ -6,7 +6,6 @@ import ChatLog from "./ChatLog";
 import ChatInput from "./ChatInput";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ChatLogNavbar from "./ChatLogNav";
 
 const initialChatLog = [
   { user: "gpt", message: "Hello I am Codepix, Your AI Assistant 🤖" },
@@ -19,6 +18,8 @@ function ChatApp() {
   const [totalToken, setTotalToken] = useState(0);
   const [userId, setUserId] = useState("");
   const [selectedRole, setSelectedRole] = useState(null);
+  const [imageURL, setImageURL] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleRoleSelected = (role) => {
     console.log("Selected Role in ChatApp", role);
@@ -26,45 +27,11 @@ function ChatApp() {
     setSelectedRole(role);
   };
 
-  /* const handleSubmit = async (e) => {
-    e.preventDefault();
-    const inputValue = chatInputRef.current.value.trim();
-    console.log("inputValue", inputValue);
-    if (!inputValue) return;
-
-    if (totalToken < 2000) {
-      toast.error("Not enough tokens 😢");
-      return;
-    }
-
-    const newMessage = { user: "me", message: inputValue };
-    const newChatLog = [...chatLog, newMessage];
-    setChatLog(newChatLog);
-    chatInputRef.current.value = "";
-
-    try {
-      const response = await fetch("http://localhost:1337/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: newChatLog.map(({ message }) => message).join("\n"),
-        }),
-      });
-
-      const { message: { content } = {}, tokenUsage } = await response.json();
-
-      setChatLog([...newChatLog, { user: "gpt", message: content }]);
-      setTokenUsage((prevTokenUsage) => prevTokenUsage + tokenUsage);
-
-      const newTotalToken = totalToken - tokenUsage;
-      updateTokenCount(newTotalToken);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
- */
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (loading) return;
+    console.log("Loading in ChatApp", loading);
+    setLoading(true);
     const inputValue = chatInputRef.current.value.trim();
     console.log("inputValue", inputValue);
     if (!inputValue) return;
@@ -84,9 +51,8 @@ function ChatApp() {
 
     console.log("age", age);
     console.log("region", region);
-
     try {
-      const response = await fetch("http://localhost:1337/api/chat", {
+      const response = await fetch("http://localhost:1337/api/search", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -107,6 +73,7 @@ function ChatApp() {
     } catch (error) {
       console.error("Error:", error);
     }
+    setLoading(false);
   };
 
   const clearChatLog = () => {
@@ -169,7 +136,6 @@ function ChatApp() {
 
     fetchTokenCount();
   }, [userId]);
-
   return (
     <div className="ChatApp">
       <SideMenu
@@ -179,9 +145,12 @@ function ChatApp() {
         handleRoleSelected={handleRoleSelected}
       />
       <section className="chatbox">
-        {/* <ChatLogNavbar /> */}
         <ChatLog chatLog={chatLog} />
-        <ChatInput chatInputRef={chatInputRef} handleSubmit={handleSubmit} />
+        <ChatInput
+          chatInputRef={chatInputRef}
+          handleSubmit={handleSubmit}
+          loading={loading}
+        />
       </section>
     </div>
   );

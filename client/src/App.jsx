@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import ChatApp from "./chatgpt-v2/ChatApp";
 import Pricing from "./pages/Pricing";
 import Completion from "./pages/Completion";
+import ImageGenerate from "./pages/ImageGenerate";
 
 // auth middleware
 import { AuthorizeUser } from "./middleware/auth";
@@ -49,6 +50,7 @@ function App() {
           />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/completion" element={<Completion />} />
+          <Route path="/image" element={<ImageGenerate />} />
         </Routes>
       </BrowserRouter>
     </div>

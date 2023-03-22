@@ -42,17 +42,20 @@ function ChatLogNavbar() {
           }`}
         >
           <div className="navbar__container">
-            <div className="navbar__links">
-              <button
-                className="flex items-center space-x-2 rounded bg-orange-700 py-1.5 px-2.5 text-sm font-medium text-white shadow-md"
-                onClick={toggleModal}
-              >
-                <span>
-                  <MdOutlineTune />
-                </span>{" "}
-                <span>Advanced</span>
-              </button>
+            <div className="navbar__links flex items-center justify-center space-x-5">
+              <div>
+                <button
+                  className="pointer-events-auto flex items-center space-x-2 rounded bg-orange-700 py-1.5 px-2.5 text-sm font-medium text-white shadow-md"
+                  onClick={toggleModal}
+                >
+                  <span>
+                    <MdOutlineTune />
+                  </span>{" "}
+                  <span>Advanced</span>
+                </button>
+              </div>
             </div>
+
             <div className="navbar__links">
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 shadow-sm drop-shadow-sm">
                 <UserchatLogo />

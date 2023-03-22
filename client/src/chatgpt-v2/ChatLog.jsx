@@ -12,7 +12,7 @@ function ChatLog({ chatLog }) {
 
   return (
     <div
-      className="chat-log relative max-h-[83%] overflow-y-auto"
+      className="chat-log relative max-h-[80%] overflow-y-auto"
       ref={chatLogRef}
     >
       <ChatLogNavbar />
