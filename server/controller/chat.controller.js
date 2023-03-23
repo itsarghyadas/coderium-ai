@@ -143,8 +143,8 @@ async function getChatResponse(
     console.log(chatToken);
     const tokenUsage = chatToken + summaryToken;
     console.log(tokenUsage);
-    context.push(generatedText.content.slice(0, 250));
-    if (context.length > 2) {
+    context.push(generatedText.content.slice(0, 500));
+    if (context.length > 3) {
       context.shift();
     }
     return { message: generatedText, tokenUsage };
@@ -259,6 +259,8 @@ export async function searchGoogle(req, res) {
 
 // image searchng implementation in chat
 export async function searchimage(req, res) {
+  const { messages } = req.body;
+  console.log(messages);
   try {
     async function query(data) {
       const response = await fetch(
@@ -281,8 +283,7 @@ export async function searchimage(req, res) {
 
     try {
       const result = await query({
-        inputs:
-          "2 medieval warriors ::0.4 travelling on a cliff to a background castle , view of a coast line landscape , English coastline, Irish coastline, scottish coastline, perspective, folklore, King Arthur, Lord of the Rings, Game of Thrones. Photographic, Photography, photorealistic, concept art, Artstation trending , cinematic lighting, cinematic composition, rule of thirds , ultra-detailed, dusk sky , low contrast, natural lighting, fog, realistic, light fogged, detailed, atmosphere hyperrealistic , volumetric light, ultra photoreal, | 35mm| , Matte painting, movie concept art, hyper-detailed, insanely detailed, corona render, octane render, 8k, --ar 3:1 --no blur --no text --no distortion",
+        inputs: messages,
       });
       console.log(result);
       console.log(result.type);

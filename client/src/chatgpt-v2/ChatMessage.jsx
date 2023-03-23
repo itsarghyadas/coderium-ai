@@ -4,8 +4,10 @@ import remarkGfm from "remark-gfm";
 import CodeBlock from "./CodeBlock";
 import ChatgptLogo from "./ChatgptLogo";
 import UserchatLogo from "./UserchatLogo";
+import { FaDownload } from "react-icons/fa";
 
-const ChatMessage = ({ message }) => {
+const ChatMessage = ({ message, imageUrl }) => {
+  console.log("message in chatmessage", message);
   const isGpt = message.user === "gpt";
   const classes = `chat-message border-b border-dashed border-slate-500/20 ${
     isGpt ? "chatgpt" : ""
@@ -21,8 +23,6 @@ const ChatMessage = ({ message }) => {
     </div>
   );
   const components = {
-    /*h1: ({ children }) => <h1 className="message__heading">{children}</h1>,
-      h2: ({ children }) => <h2 className="message__heading">{children}</h2>, */
     table: ({ children }) => (
       <table className="message__table">{children}</table>
     ),
@@ -35,13 +35,43 @@ const ChatMessage = ({ message }) => {
       <div className="chat-message-center mx-auto max-w-4xl border-l border-r border-dashed border-slate-500/20 px-8 py-10 ">
         <div className="flex items-start space-x-5 pr-7">
           <div className={avatarClasses}>{avatarContent}</div>
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            className="message__markdown project-prose text-left"
-            components={components}
-          >
-            {message.message}
-          </ReactMarkdown>
+          {isGpt && imageUrl !== undefined && imageUrl !== "" ? (
+            <div className="flex flex-col gap-1.5">
+              {message.message.startsWith("data:image/") ? (
+                <div className="flex flex-col gap-y-2">
+                  <img
+                    className="h-[300px] w-[300px] rounded-md object-cover shadow-sm drop-shadow-sm"
+                    src={message.message}
+                    alt="ChatMessage image"
+                  />
+                  <button className="flex items-center justify-center space-x-2 rounded bg-slate-200 py-1.5 font-phudu text-lg font-semibold text-slate-700 shadow drop-shadow ">
+                    <a href={message.message} download>
+                      Download
+                    </a>
+                    <span>
+                      <FaDownload />
+                    </span>
+                  </button>
+                </div>
+              ) : (
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  className="message__markdown project-prose text-left"
+                  components={components}
+                >
+                  {message.message}
+                </ReactMarkdown>
+              )}
+            </div>
+          ) : (
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              className="message__markdown project-prose text-left"
+              components={components}
+            >
+              {message.message}
+            </ReactMarkdown>
+          )}
         </div>
       </div>
     </div>

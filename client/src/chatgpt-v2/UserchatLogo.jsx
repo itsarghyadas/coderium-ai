@@ -20,12 +20,9 @@ function UserchatLogo() {
             Authorization: `Bearer ${token}`,
           },
         });
-        const { userName } = await response.json();
-        const userEmailResponse = await fetch(
-          `http://localhost:1337/api/user/${userName}`
-        );
-        const { user } = await userEmailResponse.json();
-        setUserEmail(user.email);
+        const { user } = await response.json();
+        const userEmail = user.email;
+        setUserEmail(userEmail);
         console.log("userEmail is in Chatlogo:", user.email);
         const userId = user._id;
         setUserId(userId);
@@ -44,11 +41,6 @@ function UserchatLogo() {
 
   return (
     <div>
-      {/*       <img
-        className="rounded-full shadow drop-shadow"
-        src={userAvatar}
-        alt="user avatar"
-      /> */}
       <p className="font-phudu">{firstLetter}</p>
     </div>
   );

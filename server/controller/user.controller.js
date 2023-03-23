@@ -329,11 +329,12 @@ export async function loggedUser(req, res) {
     if (!user) {
       return res.status(404).json({ success: false, error: "User not found" });
     }
-    const { password, _id, __v, verified, ...rest } = Object.assign(
+    const { password, __v, verified, ...rest } = Object.assign(
       {},
       user.toJSON()
     );
-    res.status(200).json({ success: true, userId, userName, user: rest });
+    console.log("rest", rest);
+    res.status(200).json({ success: true, userName: userName, user: rest });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });

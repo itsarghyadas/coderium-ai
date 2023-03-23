@@ -13,12 +13,10 @@ const initialChatLog = [
 
 function ChatApp() {
   const chatInputRef = useRef(null);
-  const [chatLog, setChatLog] = useState(initialChatLog);
   const [tokenUsage, setTokenUsage] = useState(0);
   const [totalToken, setTotalToken] = useState(0);
   const [userId, setUserId] = useState("");
   const [selectedRole, setSelectedRole] = useState(null);
-  const [imageURL, setImageURL] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleRoleSelected = (role) => {
@@ -27,6 +25,8 @@ function ChatApp() {
     setSelectedRole(role);
   };
 
+  const [chatLog, setChatLog] = useState(initialChatLog);
+  const [imageUrl, setImageUrl] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return;
@@ -51,28 +51,56 @@ function ChatApp() {
 
     console.log("age", age);
     console.log("region", region);
-    try {
-      const response = await fetch("http://localhost:1337/api/search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: inputValue,
-          userId: userId,
-          age: age,
-          region: region,
-        }),
-      });
 
-      const { message: { content } = {}, tokenUsage } = await response.json();
+    if (!inputValue || inputValue.startsWith("create an image")) {
+      try {
+        const response = await fetch("http://localhost:1337/api/searchimage", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: inputValue,
+          }),
+        });
+        const { image } = await response.json();
+        const base64Image = `data:image/png;base64,${image}`;
+        setImageUrl(base64Image);
+        /*  console.log("base64Image", base64Image); */
+        const newImageMessage = { user: "gpt", message: base64Image };
+        setChatLog((prevChatLog) => [
+          ...prevChatLog,
+          { user: "gpt", message: base64Image },
+        ]);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    } else {
+      try {
+        const response = await fetch("http://localhost:1337/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: inputValue,
+            userId: userId,
+            age: age,
+            region: region,
+          }),
+        });
 
-      setChatLog([...newChatLog, { user: "gpt", message: content }]);
-      setTokenUsage((prevTokenUsage) => prevTokenUsage + tokenUsage);
+        const { message: { content } = {}, tokenUsage } = await response.json();
 
-      const newTotalToken = totalToken - tokenUsage;
-      updateTokenCount(newTotalToken);
-    } catch (error) {
-      console.error("Error:", error);
+        setChatLog((prevChatLog) => [
+          ...prevChatLog,
+          { user: "gpt", message: content },
+        ]);
+        setTokenUsage((prevTokenUsage) => prevTokenUsage + tokenUsage);
+
+        const newTotalToken = totalToken - tokenUsage;
+        updateTokenCount(newTotalToken);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
+
     setLoading(false);
   };
 
@@ -91,9 +119,11 @@ function ChatApp() {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { userId } = await response.json();
-      console.log(userId);
-      setUserId(userId);
+      const { user } = await response.json();
+      console.log("UserId in ChatApp", user._id);
+      setUserId(user._id);
+      console.log("Credits in ChatApp", user.credits);
+      setTotalToken(user.credits);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -145,7 +175,7 @@ function ChatApp() {
         handleRoleSelected={handleRoleSelected}
       />
       <section className="chatbox">
-        <ChatLog chatLog={chatLog} />
+        <ChatLog chatLog={chatLog} imageUrl={imageUrl} />
         <ChatInput
           chatInputRef={chatInputRef}
           handleSubmit={handleSubmit}

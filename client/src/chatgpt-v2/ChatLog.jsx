@@ -3,9 +3,9 @@ import { useRef, useEffect } from "react";
 import ChatMessage from "./ChatMessage";
 import ChatLogNavbar from "./ChatLogNav";
 
-function ChatLog({ chatLog }) {
+function ChatLog({ chatLog, imageUrl }) {
   const chatLogRef = useRef(null);
-
+  /* console.log("image in chatlog", imageUrl); */
   useEffect(() => {
     chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
   }, [chatLog]);
@@ -17,7 +17,7 @@ function ChatLog({ chatLog }) {
     >
       <ChatLogNavbar />
       {chatLog.map((message, index) => (
-        <ChatMessage key={index} message={message} />
+        <ChatMessage key={index} message={message} imageUrl={imageUrl} />
       ))}
     </div>
   );
